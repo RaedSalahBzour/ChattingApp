@@ -2,7 +2,6 @@
 using ChattingAppAPI.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace ChattingAppAPI.Controllers;
 
