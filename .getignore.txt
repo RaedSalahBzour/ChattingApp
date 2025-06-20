@@ -1,0 +1,9 @@
+# .NET stuff
+/api/bin/
+/api/obj/
+*.user
+*.suo
+
+# Node.js stuff
+/client/node_modules/
+/client/dist/
