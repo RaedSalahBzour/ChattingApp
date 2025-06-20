@@ -1,1 +1,6 @@
-<router-outlet />
+<h1>Users</h1>
+<div>
+  @for (user of users; track $index) {
+  <p>{{ user.id }}-{{ user.userName }}</p>
+  }
+</div>
