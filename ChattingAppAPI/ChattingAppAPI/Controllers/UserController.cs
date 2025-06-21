@@ -5,9 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChattingAppAPI.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class UserController(ApplicationDbContext context) : ControllerBase
+
+public class UserController(ApplicationDbContext context) : BaseApiController
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
