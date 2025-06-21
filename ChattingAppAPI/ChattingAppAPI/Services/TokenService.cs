@@ -30,6 +30,7 @@ public class TokenService(IConfiguration configuration) : ITokenService
         {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddDays(7),
+            // tell the system how to create a secure signature for the token
             SigningCredentials = credentials,
 
         };

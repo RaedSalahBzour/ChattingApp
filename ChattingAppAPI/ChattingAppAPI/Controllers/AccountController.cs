@@ -1,6 +1,7 @@
 ﻿using ChattingAppAPI.Data;
 using ChattingAppAPI.DTOs;
 using ChattingAppAPI.Entities;
+using ChattingAppAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -8,10 +9,10 @@ using System.Text;
 
 namespace ChattingAppAPI.Controllers;
 
-public class AccountController(ApplicationDbContext context) : BaseApiController
+public class AccountController(ApplicationDbContext context, ITokenService tokenService) : BaseApiController
 {
     [HttpPost("register")]
-    public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await userExists(registerDto.Username)) return BadRequest("username is taken");
         using var hmac = new HMACSHA512();
@@ -23,10 +24,14 @@ public class AccountController(ApplicationDbContext context) : BaseApiController
         };
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync();
-        return user;
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = tokenService.GenerateToken(user)
+        };
     }
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> Login(LoginDto loginDto)
+    public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         var user = await context.Users
             .FirstOrDefaultAsync(u => u.UserName == loginDto.Username.ToLower());
@@ -39,7 +44,11 @@ public class AccountController(ApplicationDbContext context) : BaseApiController
             if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password!");
 
         }
-        return user;
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = tokenService.GenerateToken(user)
+        };
     }
     private async Task<bool> userExists(string username)
     {
