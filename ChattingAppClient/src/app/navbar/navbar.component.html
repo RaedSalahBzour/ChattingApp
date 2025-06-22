@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-md bg-body-tertiary-darker">
+  <div class="container">
+    <a class="navbar-brand" href="#">Chatting App</a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div
+      class="collapse navbar-collapse justify-content-between"
+      id="navbarSupportedContent"
+    >
+      @if(loggedIn){
+      <div class="ms-auto">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="#">Matches</a>
+          </li>
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="#">Lists</a>
+          </li>
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="#">Messages</a>
+          </li>
+        </ul>
+      </div>
+      } @if (loggedIn) {
+      <!-- Desktop Dropdown -->
+      <div class="ms-auto dropdown d-none d-md-block">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Welcome User
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+          <li>
+            <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Mobile Inline Nav Items -->
+      <ul class="navbar-nav d-block d-md-none w-100">
+        <li class="nav-item mx-3">
+          <a class="nav-link" href="#">Edit Profile</a>
+        </li>
+        <li class="nav-item mx-3">
+          <a class="nav-link" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+      } @if(!loggedIn){
+      <div class="ms-auto">
+        <form
+          #loginForm="ngForm"
+          (ngSubmit)="login()"
+          class="d-flex flex-md-row flex-column align-items-stretch gap-2"
+          role="search"
+        >
+          <input
+            class="form-control"
+            name="username"
+            [(ngModel)]="model.Username"
+            placeholder="Username"
+          />
+          <input
+            class="form-control"
+            name="password"
+            [(ngModel)]="model.Password"
+            type="Password"
+            placeholder="Password"
+          />
+          <button class="btn btn-outline-secondary" type="submit">Login</button>
+        </form>
+      </div>
+      }
+    </div>
+  </div>
+</nav>
