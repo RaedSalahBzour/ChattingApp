@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md bg-dark">
   <div class="container">
-    <a class="navbar-brand text-white" href="#">Chatting App</a>
+    <a class="navbar-brand text-white" routerLink="/home">Chatting App</a>
 
     <button
       class="navbar-toggler"
@@ -18,21 +18,37 @@
       class="collapse navbar-collapse justify-content-between"
       id="navbarSupportedContent"
     >
-      @if(accountService.currentUser()){
       <div class="ms-auto">
         <ul class="navbar-nav mb-2 mb-lg-0">
+          @if(accountService.currentUser()){
           <li class="nav-item mx-3">
-            <a class="nav-link text-white" href="#">Matches</a>
+            <a
+              class="nav-link dash-board"
+              routerLinkActive="active"
+              routerLink="/members"
+              >Members</a
+            >
           </li>
           <li class="nav-item mx-3">
-            <a class="nav-link text-white" href="#">Lists</a>
+            <a
+              class="nav-link dash-board"
+              routerLinkActive="active"
+              routerLink="/lists"
+              >Lists</a
+            >
           </li>
           <li class="nav-item mx-3">
-            <a class="nav-link text-white" href="#">Messages</a>
+            <a
+              class="nav-link dash-board"
+              routerLinkActive="active"
+              routerLink="/messages"
+              >Messages</a
+            >
           </li>
+          }
         </ul>
       </div>
-      } @if (accountService.currentUser()) {
+      @if (accountService.currentUser()) {
       <!-- Desktop Dropdown -->
       <div class="ms-auto dropdown d-none d-md-block">
         <a
@@ -42,12 +58,16 @@
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Welcome {{ accountService.currentUser()?.username }}
+          Welcome {{ accountService.currentUser()?.username | titlecase }}
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#">Edit Profile</a></li>
           <li>
-            <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
+            <a class="dropdown-item" routerLink="edit-profile">Edit Profile</a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="/home" (click)="logout()"
+              >Logout</a
+            >
           </li>
         </ul>
       </div>
@@ -82,7 +102,13 @@
             type="Password"
             placeholder="Password"
           />
-          <button class="btn btn-outline-secondary" type="submit">Login</button>
+          <button
+            class="btn btn-outline-light"
+            style="color: #909090"
+            type="submit"
+          >
+            Login
+          </button>
         </form>
       </div>
       }
