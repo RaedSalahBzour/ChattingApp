@@ -10,7 +10,7 @@ import { AccountService } from '../_services/account.service';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  private accountService = inject(AccountService);
+  accountService = inject(AccountService);
   model: any = {};
   loggedIn = false;
   login() {
@@ -23,7 +23,6 @@ export class NavbarComponent {
     });
   }
   logout() {
-    this.loggedIn = false;
-    console.log(this.loggedIn);
+    this.accountService.logout();
   }
 }

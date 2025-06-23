@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-md bg-body-tertiary-darker">
+<nav class="navbar navbar-expand-md bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#">Chatting App</a>
+    <a class="navbar-brand text-white" href="#">Chatting App</a>
 
     <button
       class="navbar-toggler"
@@ -18,31 +18,31 @@
       class="collapse navbar-collapse justify-content-between"
       id="navbarSupportedContent"
     >
-      @if(loggedIn){
+      @if(accountService.currentUser()){
       <div class="ms-auto">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item mx-3">
-            <a class="nav-link" href="#">Matches</a>
+            <a class="nav-link text-white" href="#">Matches</a>
           </li>
           <li class="nav-item mx-3">
-            <a class="nav-link" href="#">Lists</a>
+            <a class="nav-link text-white" href="#">Lists</a>
           </li>
           <li class="nav-item mx-3">
-            <a class="nav-link" href="#">Messages</a>
+            <a class="nav-link text-white" href="#">Messages</a>
           </li>
         </ul>
       </div>
-      } @if (loggedIn) {
+      } @if (accountService.currentUser()) {
       <!-- Desktop Dropdown -->
       <div class="ms-auto dropdown d-none d-md-block">
         <a
-          class="nav-link dropdown-toggle"
+          class="nav-link dropdown-toggle text-white"
           href="#"
           role="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Welcome User
+          Welcome {{ accountService.currentUser()?.username }}
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li><a class="dropdown-item" href="#">Edit Profile</a></li>
@@ -61,7 +61,7 @@
           <a class="nav-link" (click)="logout()">Logout</a>
         </li>
       </ul>
-      } @if(!loggedIn){
+      } @if(!accountService.currentUser()){
       <div class="ms-auto">
         <form
           #loginForm="ngForm"

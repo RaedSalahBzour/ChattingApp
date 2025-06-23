@@ -1,0 +1,29 @@
+<div class="container mt-5">
+  <div class="text-center">
+    @if(!registerMode){
+    <h1 class="display-4 mb-3">Start Chatting Now</h1>
+    <p class="lead text-muted mb-4">
+      Join the conversation and connect with others instantly. Just sign up to
+      begin chatting!
+    </p>
+    <div class="d-flex justify-content-center gap-3">
+      <button (click)="registerToggle()" class="btn btn-primary btn-lg px-4">
+        Register
+      </button>
+      <button class="btn btn-outline-info btn-lg px-4">Learn more</button>
+    </div>
+    } @else {
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <p class="text-center text-muted">
+            <app-register
+              (canelRegister)="handleCancelRegister($event)"
+            ></app-register>
+          </p>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
