@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-error',
+  selector: 'app-not-found',
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './error.component.html',
-  styleUrl: './error.component.css',
+  templateUrl: './not-found.component.html',
+  styleUrl: './not-found.component.css',
 })
-export class ErrorComponent {}
+export class NotFoundComponent {}

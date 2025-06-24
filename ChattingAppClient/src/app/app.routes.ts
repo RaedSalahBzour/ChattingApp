@@ -6,8 +6,10 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ListsComponent } from './components/lists/lists.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
-import { ErrorComponent } from './components/error/error.component';
 import { authGuard } from './_guards/auth.guard';
+import { TestErrorsComponent } from './components/errors/test-errors/test-errors.component';
+import { NotFoundComponent } from './components/errors/not-found/not-found.component';
+import { ServerErrorComponent } from './components/errors/server-error/server-error.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -24,6 +26,9 @@ export const routes: Routes = [
     ],
   },
   { path: 'register', component: RegisterComponent },
+  { path: 'errors', component: TestErrorsComponent },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: 'server-error', component: ServerErrorComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', component: ErrorComponent },
+  { path: '**', component: NotFoundComponent },
 ];
