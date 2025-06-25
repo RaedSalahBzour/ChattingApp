@@ -1,0 +1,36 @@
+<div class="card h-100 shadow-sm border-0">
+  <div class="image-container">
+    <img
+      [src]="member().photoUrl || 'assets/default.png'"
+      class="card-img-top object-fit-cover zoom-on-hover"
+      alt="{{ member().knownAs }}"
+      style="height: 200px"
+    />
+    <ul class="list-inline member-icons animate text-center mt-4">
+      <li class="list-inline-item">
+        <button
+          routerLink="/members/{{ member().username }}"
+          class="btn btn-primary"
+        >
+          <i class="fa fa-user"></i>
+        </button>
+      </li>
+      <li class="list-inline-item">
+        <button class="btn btn-primary">
+          <i class="fa fa-heart"></i>
+        </button>
+      </li>
+      <li class="list-inline-item">
+        <button class="btn btn-primary">
+          <i class="fa fa-envelope"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body text-center">
+    <h5 class="card-title mb-1">{{ member().knownAs }}</h5>
+    <p class="card-text text-muted">
+      {{ member().city || "Unknown City" }}
+    </p>
+  </div>
+</div>

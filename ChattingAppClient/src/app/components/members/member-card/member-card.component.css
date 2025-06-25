@@ -1,0 +1,45 @@
+.image-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.zoom-on-hover {
+  transition: transform 0.45s ease-out;
+}
+
+.zoom-on-hover:hover {
+  transform: scale(1.14, 1.14);
+}
+
+.member-icons {
+  position: absolute;
+  bottom: -30%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.image-container:hover .member-icons {
+  bottom: 10px;
+  opacity: 1;
+}
+
+.animate {
+  transition: all 0.3s ease-in-out;
+}
+
+@keyframes fa-blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+.is-online {
+  animation: fa-blink 1.5s linear infinite;
+  color: rgb(1, 189, 42);
+}

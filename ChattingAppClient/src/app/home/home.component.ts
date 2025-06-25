@@ -10,23 +10,6 @@ import { RouterModule } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent implements OnInit {
-  users: any;
-  constructor(private httpClient: HttpClient) {}
+export class HomeComponent {
   accountService = inject(AccountService);
-  ngOnInit(): void {
-    this.getUsers();
-  }
-
-  getUsers() {
-    this.httpClient.get('https://localhost:5001/api/user').subscribe({
-      next: (response) => {
-        this.users = response;
-      },
-      error: (error) => console.log(error),
-      complete: () => {
-        console.log('request has completed');
-      },
-    });
-  }
 }
