@@ -2,6 +2,7 @@
 using ChattingAppAPI.DTOs;
 using ChattingAppAPI.Entities;
 using ChattingAppAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -30,6 +31,7 @@ public class AccountController(ApplicationDbContext context, ITokenService token
             Token = tokenService.GenerateToken(user)
         };
     }
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {

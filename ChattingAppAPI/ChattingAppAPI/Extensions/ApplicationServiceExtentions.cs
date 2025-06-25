@@ -1,4 +1,5 @@
 ﻿using ChattingAppAPI.Data;
+using ChattingAppAPI.Data.Repositories;
 using ChattingAppAPI.Interfaces;
 using ChattingAppAPI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,9 @@ public static class ApplicationServiceExtentions
        });
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         return services;
     }
 }
