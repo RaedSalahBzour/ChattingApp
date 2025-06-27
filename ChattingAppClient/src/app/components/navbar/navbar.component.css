@@ -1,6 +1,9 @@
 .active {
-  color: white !important;
+  color: rgb(255, 255, 255) !important;
 }
 .dash-board:hover {
+  color: #cfcfcf;
+}
+.text-gray {
   color: #909090;
 }

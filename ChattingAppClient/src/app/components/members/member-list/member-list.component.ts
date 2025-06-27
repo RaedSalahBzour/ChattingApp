@@ -14,13 +14,10 @@ import { MemberCardComponent } from '../member-card/member-card.component';
 })
 export class MemberListComponent implements OnInit {
   memberService = inject(MemberService);
-  members: Member[] = [];
   ngOnInit(): void {
-    this.loadMembers();
+    if (this.memberService.members().length === 0) this.loadMembers();
   }
   loadMembers() {
-    this.memberService
-      .getMembers()
-      .subscribe((members) => (this.members = members));
+    this.memberService.getMembers();
   }
 }

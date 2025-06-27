@@ -37,7 +37,7 @@ public class AccountController(ApplicationDbContext context, ITokenService token
     {
         var user = await context.Users
             .FirstOrDefaultAsync(u => u.UserName == loginDto.Username.ToLower());
-        if (user is null) return Unauthorized("invalid username!");
+        if (user is null || user.UserName != loginDto.Username) return Unauthorized("invalid username!");
         using var hmac = new HMACSHA512(user.PasswordSalt);
 
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
