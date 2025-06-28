@@ -21,6 +21,7 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users
                 .Where(x => x.UserName == username)
+                //convert it from data base to MemberDto
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
     }

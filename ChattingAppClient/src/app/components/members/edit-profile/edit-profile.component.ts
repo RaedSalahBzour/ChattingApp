@@ -13,11 +13,18 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { PhotoEditorComponent } from '../../photo-editor/photo-editor.component';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [TabsModule, FormsModule, CommonModule],
+  imports: [
+    TabsModule,
+    FormsModule,
+    CommonModule,
+    PhotoEditorComponent,
+    PhotoEditorComponent,
+  ],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css',
 })
