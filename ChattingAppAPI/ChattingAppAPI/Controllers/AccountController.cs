@@ -35,7 +35,8 @@ public class AccountController(ApplicationDbContext context, ITokenService token
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        var user = await context.Users
+
+        var user = await context.Users.Include(u => u.Photos)
             .FirstOrDefaultAsync(u => u.UserName.ToLower() == loginDto.Username.ToLower());
         if (user is null || user.UserName.ToLower() != loginDto.Username.ToLower()) return Unauthorized("invalid username!");
         using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -49,7 +50,9 @@ public class AccountController(ApplicationDbContext context, ITokenService token
         return new UserDto
         {
             Username = user.UserName,
-            Token = tokenService.GenerateToken(user)
+            Token = tokenService.GenerateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+
         };
     }
     private async Task<bool> userExists(string username)

@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PhotoEditorComponent } from '../../photo-editor/photo-editor.component';
+import { Photo } from '../../../_models/Photo';
 
 @Component({
   selector: 'app-edit-profile',
@@ -50,6 +51,7 @@ export class EditProfileComponent implements OnInit {
       next: (member) => (this.member = member),
     });
   }
+
   updateMember() {
     this.memberService.updateMember(this.editForm?.value).subscribe({
       next: (_) => {
@@ -57,5 +59,8 @@ export class EditProfileComponent implements OnInit {
         this.editForm?.reset(this.member);
       },
     });
+  }
+  onMemberChange(event: Member) {
+    this.member = event;
   }
 }

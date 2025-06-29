@@ -7,3 +7,12 @@
 .text-gray {
   color: #909090;
 }
+img {
+  max-height: 50px;
+  border: 2px solid white;
+  object-fit: cover;
+}
+.flexing {
+  display: flex !important;
+  gap: 10px;
+}

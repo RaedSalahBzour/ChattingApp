@@ -49,10 +49,16 @@
         </ul>
       </div>
       @if (accountService.currentUser()) {
-      <!-- Desktop Dropdown -->
-      <div class="ms-auto dropdown d-none d-md-block">
+      <div class="ms-auto dropdown d-none d-md-block flexing">
+        <img
+          src="{{
+            accountService.currentUser()?.photoUrl || '../assets/default.png'
+          }}"
+          alt="user image"
+          class="rounded-circle"
+        />
         <a
-          class="nav-link dropdown-toggle text-white"
+          class="nav-link dropdown-toggle text-white mt-3"
           href="#"
           role="button"
           data-bs-toggle="dropdown"
