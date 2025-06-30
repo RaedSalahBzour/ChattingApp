@@ -12,6 +12,7 @@ export class MemberService {
   http = inject(HttpClient);
   BaseUrl = environment.apiUrl;
   members = signal<Member[]>([]);
+
   getMembers() {
     return this.http
       .get<Member[]>(this.BaseUrl + 'user')

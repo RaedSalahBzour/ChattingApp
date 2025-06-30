@@ -4,7 +4,6 @@ import {
   inject,
   OnInit,
   ViewChild,
-  viewChild,
 } from '@angular/core';
 import { Member } from '../../../_models/member';
 import { AccountService } from '../../../_services/account.service';
@@ -14,7 +13,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PhotoEditorComponent } from '../../photo-editor/photo-editor.component';
-import { Photo } from '../../../_models/Photo';
 
 @Component({
   selector: 'app-edit-profile',
