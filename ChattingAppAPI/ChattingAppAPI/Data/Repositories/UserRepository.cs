@@ -2,7 +2,9 @@
 using AutoMapper.QueryableExtensions;
 using ChattingAppAPI.DTOs;
 using ChattingAppAPI.Entities;
+using ChattingAppAPI.Helpers;
 using ChattingAppAPI.Interfaces;
+using ChattingAppAPI.Migrations;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChattingAppAPI.Data.Repositories;
@@ -26,11 +28,28 @@ public class UserRepository : IUserRepository
                 .SingleOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<MemberDto>> GetMembersAsync()
+    public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
     {
-        return await _context.Users
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+        var query = _context.Users.AsQueryable();
+        query = query.Where(u => u.UserName != userParams.CurrentUsername);
+        if (userParams.Gender == "male" || userParams.Gender == "female")
+            query = query.Where(u => u.Gender == userParams.Gender);
+
+        query = userParams.OrderBy switch
+        {
+            "createdAt" => query.OrderByDescending(u => u.CreatedAt),
+            _ => query.OrderByDescending(u => u.LastActive)
+        };
+
+        var oldestAllowedDob = DateOnly
+                .FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
+        var youngestAllowedDob = DateOnly
+            .FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
+        query = query.Where(u => u.DateOfBirth >= oldestAllowedDob
+        && u.DateOfBirth <= youngestAllowedDob);
+        return await PagedList<MemberDto>
+            .CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            , userParams.PageNumber, userParams.PageSize);
     }
 
     public async Task<AppUser?> GetUserByIdAsync(int id)

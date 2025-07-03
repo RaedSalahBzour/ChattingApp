@@ -1,4 +1,7 @@
-<div class="card h-100 shadow-sm border-0">
+<div
+  class="card h-100 shadow-sm border-0"
+  style="background-color: rgb(227, 227, 227)"
+>
   <div class="image-container">
     <img
       [src]="member().photoUrl || 'assets/default.png'"
@@ -29,8 +32,8 @@
   </div>
   <div class="card-body text-center">
     <h5 class="card-title mb-1">{{ member().knownAs }}</h5>
-    <p class="card-text text-muted">
-      {{ member().city || "Unknown City" }}
+    <p class="card-text">
+      {{ member().city || "Unknown City" }} ,{{ member().age }}
     </p>
   </div>
 </div>

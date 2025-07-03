@@ -2,6 +2,7 @@
 using ChattingAppAPI.DTOs;
 using ChattingAppAPI.Entities;
 using ChattingAppAPI.Extensions;
+using ChattingAppAPI.Helpers;
 using ChattingAppAPI.Interfaces;
 using ChattingAppAPI.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -16,9 +17,11 @@ public class UserController(IUserRepository userRepository, IMapper mapper,
 {
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
-        var users = await userRepository.GetMembersAsync();
+        userParams.CurrentUsername = User.GetUserName();
+        var users = await userRepository.GetMembersAsync(userParams);
+        Response.AddPaginationHeader(users);
         return Ok(users);
     }
     [HttpGet("{id:int}")]

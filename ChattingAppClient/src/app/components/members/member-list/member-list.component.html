@@ -1,7 +1,109 @@
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-  @for (member of memberService.members(); track member.id) {
-  <div class="col">
-    <app-member-card [member]="member"></app-member-card>
-  </div>
-  }
+<!-- Filter Form -->
+<div class="container mt-4">
+  <form
+    #filterForm="ngForm"
+    class="row g-3 align-items-end"
+    (ngSubmit)="loadMembers()"
+  >
+    <!-- Age From -->
+    <div class="col-md-auto">
+      <label for="minAge" class="form-label">Age from:</label>
+      <input
+        id="minAge"
+        type="number"
+        class="form-control"
+        name="minAge"
+        [(ngModel)]="userParams.minAge"
+      />
+    </div>
+
+    <!-- Age To -->
+    <div class="col-md-auto">
+      <label for="maxAge" class="form-label">Age to:</label>
+      <input
+        id="maxAge"
+        type="number"
+        class="form-control"
+        name="maxAge"
+        [(ngModel)]="userParams.maxAge"
+      />
+    </div>
+
+    <!-- Gender -->
+    <div class="col-md-auto">
+      <label for="gender" class="form-label">Show:</label>
+      <select
+        id="gender"
+        name="gender"
+        class="form-select"
+        [(ngModel)]="userParams.gender"
+      >
+        @for (gender of genderList; track gender.value) {
+        <option [value]="gender.value">
+          {{ gender.display }}
+        </option>
+        }
+      </select>
+    </div>
+    <div class="col-md-auto">
+      <label for="orderBy" class="form-label">Order By:</label>
+      <select
+        id="orderBy"
+        name="orderBy"
+        class="form-select"
+        [(ngModel)]="userParams.OrderBy"
+      >
+        @for (order of OrderByList; track order.value) {
+        <option [value]="order.value">
+          {{ order.display }}
+        </option>
+        }
+      </select>
+    </div>
+    <!-- Apply Filter Button -->
+    <div class="col-md-auto">
+      <button class="btn btn-primary w-100" type="submit">Apply Filter</button>
+    </div>
+
+    <!-- Reset Filter Button -->
+    <div class="col-md-auto">
+      <button
+        class="btn btn-outline-secondary w-100"
+        type="button"
+        (click)="reserFilters()"
+      >
+        Reset
+      </button>
+    </div>
+  </form>
 </div>
+
+<!-- Member Cards Grid -->
+<div class="container mt-4">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
+    @for (member of memberService.paginationResult()?.items; track member.id) {
+    <div class="col">
+      <app-member-card [member]="member"></app-member-card>
+    </div>
+    }
+  </div>
+</div>
+
+<!-- Pagination -->
+@if (memberService.paginationResult()?.pagination) {
+<div class="d-flex justify-content-center mt-4">
+  <pagination
+    [boundaryLinks]="true"
+    [totalItems]="(memberService.paginationResult()?.pagination)!.totalItems"
+    [itemsPerPage]="
+      (memberService.paginationResult()?.pagination)!.itemsPerPage
+    "
+    (pageChanged)="pageChanged($event)"
+    [maxSize]="10"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;"
+  ></pagination>
+</div>
+}
