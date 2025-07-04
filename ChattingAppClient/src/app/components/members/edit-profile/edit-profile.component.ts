@@ -9,10 +9,11 @@ import { Member } from '../../../_models/member';
 import { AccountService } from '../../../_services/account.service';
 import { MemberService } from '../../../_services/member.service';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PhotoEditorComponent } from '../../photo-editor/photo-editor.component';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-edit-profile',
@@ -23,6 +24,8 @@ import { PhotoEditorComponent } from '../../photo-editor/photo-editor.component'
     CommonModule,
     PhotoEditorComponent,
     PhotoEditorComponent,
+    TimeagoModule,
+    DatePipe,
   ],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css',

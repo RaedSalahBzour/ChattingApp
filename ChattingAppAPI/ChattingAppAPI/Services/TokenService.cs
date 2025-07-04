@@ -20,7 +20,8 @@ public class TokenService(IConfiguration configuration) : ITokenService
         // create a list of claims (user information) to include in the JWT
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier,user.UserName),
+            new(ClaimTypes.NameIdentifier,user.Id.ToString()),
+            new(ClaimTypes.Name,user.UserName),
         };
         // to specify how to sign the token using the key and algorithm
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
