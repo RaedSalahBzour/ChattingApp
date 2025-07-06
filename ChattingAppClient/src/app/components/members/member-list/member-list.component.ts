@@ -32,7 +32,7 @@ export class MemberListComponent implements OnInit {
   loadMembers() {
     this.memberService.getMembers(this.userParams);
   }
-  reserFilters() {
+  resetFilters() {
     this.userParams = new UserParams(this.accountService.currentUser());
     this.loadMembers();
   }

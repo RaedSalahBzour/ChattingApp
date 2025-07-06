@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { AccountService } from '../../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { TitleCasePipe } from '@angular/common';
+import { MemberService } from '../../_services/member.service';
+import { UserParams } from '../../_models/UserParams';
 
 @Component({
   selector: 'app-navbar',

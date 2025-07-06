@@ -1,6 +1,4 @@
-﻿using ChattingAppAPI.Extensions;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ChattingAppAPI.Entities;
 
@@ -22,9 +20,7 @@ public class AppUser
     public string City { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
     public List<Photo> Photos { get; set; } = [];
+    public List<UserLike> LikedByUsers { get; set; } = [];
+    public List<UserLike> LikedUsers { get; set; } = [];
 
-    public int CalculateAge()
-    {
-        return DateOfBirth.CalculateAge();
-    }
 }

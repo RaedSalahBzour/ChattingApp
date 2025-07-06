@@ -48,6 +48,7 @@ public class UserRepository : IUserRepository
         query = query.Where(u => u.DateOfBirth >= oldestAllowedDob
         && u.DateOfBirth <= youngestAllowedDob);
         return await PagedList<MemberDto>
+            //convert it from data base to MemberDto
             .CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
             , userParams.PageNumber, userParams.PageSize);
     }

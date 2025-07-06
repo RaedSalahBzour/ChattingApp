@@ -50,6 +50,10 @@ export class MemberService {
     }
     return params;
   }
+  clearCache() {
+    this.memberCache.clear();
+    this.paginationResult.set(null);
+  }
   getMember(username: string) {
     const cachedResponses = Array.from(this.memberCache.values());
     const allMembers: Member[] = cachedResponses.flatMap(
