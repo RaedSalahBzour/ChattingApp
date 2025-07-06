@@ -1,5 +1,6 @@
 ﻿using ChattingAppAPI.Entities;
 using ChattingAppAPI.Extensions;
+using ChattingAppAPI.Helpers;
 using ChattingAppAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,9 +36,11 @@ public class LikeController(ILikeRepository likeRepository) : BaseApiController
         return Ok(await likeRepository.GetCurrentUserLikeIds(User.GetUserId()));
     }
     [HttpGet]
-    public async Task<ActionResult> GetUserLikes(string predicate)
+    public async Task<ActionResult> GetUserLikes([FromQuery] LikeParams likeParams)
     {
-        var users = await likeRepository.GetUserLikes(predicate, User.GetUserId());
+        likeParams.UserId = User.GetUserId();
+        var users = await likeRepository.GetUserLikes(likeParams);
+        Response.AddPaginationHeader(users);
         return Ok(users);
     }
 }
