@@ -7,6 +7,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<AppUser> Users { get; set; }
     public DbSet<UserLike> Likes { get; set; }
+    public DbSet<Message> Messages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,9 +26,22 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasOne(ul => ul.TargetUser)
             .WithMany(u => u.LikedByUsers)
             .HasForeignKey(ul => ul.TargetUserId)
-            //noAction for avoiding casacde cycles
+            //noAction=> for avoiding casacde cycles
             //target user must be deleted manually
             .OnDelete(DeleteBehavior.NoAction);
+
+
+        modelBuilder.Entity<Message>()
+            .HasOne(m => m.Sender)
+            .WithMany(u => u.MessageSent)
+            .HasForeignKey(m => m.SenderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Message>()
+            .HasOne(m => m.Recipient)
+            .WithMany(u => u.MessageReceived)
+            .HasForeignKey(m => m.RecipinetId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
 

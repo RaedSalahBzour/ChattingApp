@@ -14,7 +14,8 @@ public class LogUserActivity : IAsyncActionFilter
         //var username1 = context.HttpContext.User.GetUserName();
         //gives the context of after the execution of the action
         var userId = resultContext.HttpContext.User.GetUserId();
-        var repo = resultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+        var repo = resultContext.HttpContext
+            .RequestServices.GetRequiredService<IUserRepository>();
         var user = await repo.GetUserByIdAsync(userId);
         if (user == null) return;
         user.LastActive = DateTime.UtcNow;
