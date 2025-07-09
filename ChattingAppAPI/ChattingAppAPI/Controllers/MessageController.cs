@@ -4,11 +4,11 @@ using ChattingAppAPI.Entities;
 using ChattingAppAPI.Extensions;
 using ChattingAppAPI.Helpers;
 using ChattingAppAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens.Experimental;
 
 namespace ChattingAppAPI.Controllers;
-
+[Authorize]
 public class MessageController(IMessageRepository messageRepository,
     IUserRepository userRepository, IMapper mapper) : BaseApiController
 {
@@ -51,5 +51,22 @@ public class MessageController(IMessageRepository messageRepository,
     {
         var currentUsername = User.GetUserName();
         return Ok(await messageRepository.GetMessageThread(currentUsername, username));
+    }
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteMessage(int id)
+    {
+        var username = User.GetUserName();
+        var message = await messageRepository.GetMessage(id);
+        if (message is null) return BadRequest("cannot delete this message");
+        if (message.SenderUsername != username && message.RecipientUsername != username)
+            return Forbid();
+
+        if (message.SenderUsername == username) message.SenderDeleted = true;
+        if (message.RecipientUsername == username) message.RecipientDeleted = true;
+        if (message is { SenderDeleted: true, RecipientDeleted: true })
+            messageRepository.DeleteMessage(message);
+        if (await messageRepository.SaveAllAsync())
+            return Ok();
+        return BadRequest("problem occured when deleting the message");
     }
 }
