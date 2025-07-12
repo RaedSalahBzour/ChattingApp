@@ -24,6 +24,7 @@ public class UserController(IUserRepository userRepository, IMapper mapper,
         Response.AddPaginationHeader(users);
         return Ok(users);
     }
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult<AppUser>> GetUser(int id)
     {

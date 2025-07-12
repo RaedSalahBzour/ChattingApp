@@ -1,14 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChattingAppAPI.Entities;
 
-public class AppUser
+public class AppUser : IdentityUser<int>
 {
-    [Key]
-    public int Id { get; set; }
-    public required string UserName { get; set; }
-    public byte[] PasswordHash { get; set; } = [];
-    public byte[] PasswordSalt { get; set; } = [];
     public string KnownAs { get; set; } = string.Empty;
     public DateOnly DateOfBirth { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -24,6 +20,7 @@ public class AppUser
     public List<UserLike> LikedUsers { get; set; } = [];
     public List<Message> MessageSent { get; set; } = [];
     public List<Message> MessageReceived { get; set; } = [];
+    public ICollection<UserRole> UserRoles { get; set; } = [];
 
 
 }

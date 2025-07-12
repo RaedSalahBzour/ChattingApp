@@ -45,6 +45,14 @@
               >Messages</a
             >
           </li>
+          <li *appHasRole="['admin', 'moderator']" class="nav-item mx-3">
+            <a
+              class="nav-link dash-board text-gray"
+              routerLinkActive="active"
+              routerLink="/admin"
+              >Admin</a
+            >
+          </li>
           }
         </ul>
       </div>

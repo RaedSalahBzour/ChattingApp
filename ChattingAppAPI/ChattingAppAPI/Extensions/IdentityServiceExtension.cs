@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using ChattingAppAPI.Data;
+using ChattingAppAPI.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -9,6 +12,14 @@ public static class IdentityServiceExtension
     public static IServiceCollection AddIdentityServices(this IServiceCollection services
         , IConfiguration configuration)
     {
+        services.AddIdentityCore<AppUser>(opt =>
+        {
+            opt.Password.RequireNonAlphanumeric = true;
+        }).AddRoles<AppRole>()
+        .AddRoleManager<RoleManager<AppRole>>()
+        .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
         //JwtBearerDefaults.AuthenticationScheme is just a shortcut for the string "Bearer"
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -33,6 +44,10 @@ public static class IdentityServiceExtension
                     ValidateAudience = false,
                 };
             });
+        services.AddAuthorizationBuilder()
+            .AddPolicy("RequireAdminRole", policy => policy.RequireRole("admin"))
+            .AddPolicy("ModeratorPhotoRole",
+            policy => policy.RequireRole("admin", "moderator"));
         return services;
     }
 }

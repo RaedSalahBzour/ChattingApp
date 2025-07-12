@@ -4,5 +4,5 @@ namespace ChattingAppAPI.Interfaces;
 
 public interface ITokenService
 {
-    string GenerateToken(AppUser user);
+    Task<string> GenerateToken(AppUser user);
 }

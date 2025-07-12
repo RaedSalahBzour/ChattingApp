@@ -12,6 +12,8 @@ import { ServerErrorComponent } from './components/errors/server-error/server-er
 import { EditProfileComponent } from './components/members/edit-profile/edit-profile.component';
 import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { memberDetailedResolver } from './_resolvers/member-detailed.resolver';
+import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.component';
+import { adminGuard } from './_guards/admin.guard';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -32,6 +34,11 @@ export const routes: Routes = [
         path: 'edit-profile',
         component: EditProfileComponent,
         canDeactivate: [preventUnsavedChangesGuard],
+      },
+      {
+        path: 'admin',
+        component: AdminPanelComponent,
+        canActivate: [adminGuard],
       },
     ],
   },

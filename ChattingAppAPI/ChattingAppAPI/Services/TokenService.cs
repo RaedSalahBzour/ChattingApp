@@ -1,5 +1,6 @@
 ﻿using ChattingAppAPI.Entities;
 using ChattingAppAPI.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -7,9 +8,10 @@ using System.Text;
 
 namespace ChattingAppAPI.Services;
 
-public class TokenService(IConfiguration configuration) : ITokenService
+public class TokenService(IConfiguration configuration, UserManager<AppUser> userManager)
+    : ITokenService
 {
-    public string GenerateToken(AppUser user)
+    public async Task<string> GenerateToken(AppUser user)
     {
         var tokenKey = configuration["tokenKey"]
             ?? throw new Exception("can not access token key from appsettings!");
@@ -25,7 +27,8 @@ public class TokenService(IConfiguration configuration) : ITokenService
         };
         // to specify how to sign the token using the key and algorithm
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
+        var roles = await userManager.GetRolesAsync(user);
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
         // defines what will be inside the JWT and how it will be signed
         var tokenDescriptor = new SecurityTokenDescriptor
         {

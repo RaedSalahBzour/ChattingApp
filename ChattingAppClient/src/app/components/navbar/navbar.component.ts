@@ -6,11 +6,18 @@ import { ToastrService } from 'ngx-toastr';
 import { TitleCasePipe } from '@angular/common';
 import { MemberService } from '../../_services/member.service';
 import { UserParams } from '../../_models/UserParams';
+import { HasRoleDirective } from '../../_directives/has-role.directive';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [FormsModule, RouterModule, RouterLinkActive, TitleCasePipe],
+  imports: [
+    FormsModule,
+    RouterModule,
+    RouterLinkActive,
+    TitleCasePipe,
+    HasRoleDirective,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

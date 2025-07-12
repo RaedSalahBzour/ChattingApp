@@ -1,11 +1,15 @@
 ﻿using ChattingAppAPI.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChattingAppAPI.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
+    IdentityDbContext<AppUser, AppRole,
+        int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>
+        , IdentityRoleClaim<int>, IdentityUserToken<int>>(options)
 {
-    public DbSet<AppUser> Users { get; set; }
     public DbSet<UserLike> Likes { get; set; }
     public DbSet<Message> Messages { get; set; }
 
@@ -42,6 +46,20 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany(u => u.MessageReceived)
             .HasForeignKey(m => m.RecipinetId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<UserRole>()
+            .HasOne(ur => ur.Role)
+            .WithMany(r => r.UserRoles)
+            .HasForeignKey(r => r.RoleId)
+            .IsRequired();
+
+        modelBuilder.Entity<UserRole>()
+            .HasOne(ur => ur.User)
+            .WithMany(u => u.UserRoles)
+            .HasForeignKey(u => u.UserId)
+            .IsRequired();
+
+
     }
 }
 

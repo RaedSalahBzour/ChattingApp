@@ -1,9 +1,11 @@
 using ChattingAppAPI.Data;
 using ChattingAppAPI.Data.Repositories;
+using ChattingAppAPI.Entities;
 using ChattingAppAPI.Extensions;
 using ChattingAppAPI.Interfaces;
 using ChattingAppAPI.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -33,8 +35,10 @@ var sercices = scpoe.ServiceProvider;
 try
 {
     var context = sercices.GetRequiredService<ApplicationDbContext>();
+    var userManager = sercices.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = sercices.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
-    await Seed.SeedUsers(context);
+    await Seed.SeedUsers(userManager, roleManager);
 }
 catch (Exception ex)
 {
