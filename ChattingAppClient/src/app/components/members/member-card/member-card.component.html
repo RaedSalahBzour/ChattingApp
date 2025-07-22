@@ -35,7 +35,11 @@
     </ul>
   </div>
   <div class="card-body text-center">
-    <h5 class="card-title mb-1">{{ member().knownAs }}</h5>
+    <h5 class="card-title mb-1">
+      <span [class.is-online]="isOnline()"><i class="fa fa-user me-2"></i></span
+      >{{ member().knownAs }}
+    </h5>
+
     <p class="card-text">
       {{ member().city || "Unknown City" }} ,{{ member().age }}
       @if(hasLiked()){

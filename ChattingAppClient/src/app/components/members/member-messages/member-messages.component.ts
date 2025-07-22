@@ -10,6 +10,7 @@ import { MessageService } from '../../../_services/message.service';
 import { Message } from '../../../_models/message';
 import { TimeagoModule } from 'ngx-timeago';
 import { FormsModule, NgForm } from '@angular/forms';
+import { errorInterceptor } from '../../../_interceptors/error.interceptor';
 
 @Component({
   selector: 'app-member-messages',
@@ -22,16 +23,11 @@ export class MemberMessagesComponent {
   @ViewChild('messageForm') messageForm?: NgForm;
   messageService = inject(MessageService);
   username = input.required<string>();
-  messages = input.required<Message[]>();
   messageContent = '';
-  updateMessages = output<Message>();
   sendMessage() {
     this.messageService
       .sendMessage(this.username(), this.messageContent)
-      .subscribe({
-        next: (message) => {
-          this.updateMessages.emit(message), this.messageForm?.reset();
-        },
-      });
+      .then(() => this.messageForm?.reset())
+      .catch((error) => console.log(error));
   }
 }

@@ -1,14 +1,10 @@
 using ChattingAppAPI.Data;
-using ChattingAppAPI.Data.Repositories;
 using ChattingAppAPI.Entities;
 using ChattingAppAPI.Extensions;
-using ChattingAppAPI.Interfaces;
 using ChattingAppAPI.Middlewares;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ChattingAppAPI.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +17,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(x => x.AllowAnyHeader()
-.AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
+.AllowAnyMethod().AllowCredentials()
+.WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
 app.UseHttpsRedirection();
 
@@ -29,6 +26,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
 
 using var scpoe = app.Services.CreateScope();
 var sercices = scpoe.ServiceProvider;
@@ -38,6 +37,7 @@ try
     var userManager = sercices.GetRequiredService<UserManager<AppUser>>();
     var roleManager = sercices.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
+    await context.Database.ExecuteSqlRawAsync("Delete From [Connections]");
     await Seed.SeedUsers(userManager, roleManager);
 }
 catch (Exception ex)

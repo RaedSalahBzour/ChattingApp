@@ -5,6 +5,7 @@ import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LikeService } from './like.service';
 import { MemberService } from './member.service';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ import { MemberService } from './member.service';
 export class AccountService {
   private http = inject(HttpClient);
   private likeService = inject(LikeService);
+  private presenceService = inject(PresenceService);
   private memberService = inject(MemberService);
   BaseUrl = environment.apiUrl;
   currentUser = signal<User | null>(null);
@@ -36,6 +38,7 @@ export class AccountService {
     localStorage.removeItem('user');
     this.currentUser.set(null);
     this.memberService.clearCache();
+    this.presenceService.stopHubConnection();
   }
   register(user: any) {
     return this.http.post<User>(this.BaseUrl + 'account/register', user).pipe(
@@ -51,5 +54,6 @@ export class AccountService {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUser.set(user);
     this.likeService.getLikeIds();
+    this.presenceService.createHubConnection(user);
   }
 }

@@ -3,6 +3,7 @@ using ChattingAppAPI.Data.Repositories;
 using ChattingAppAPI.Helpers;
 using ChattingAppAPI.Interfaces;
 using ChattingAppAPI.Services;
+using ChattingAppAPI.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChattingAppAPI.Extensions;
@@ -26,7 +27,8 @@ public static class ApplicationServiceExtentions
         services.AddScoped<LogUserActivity>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
-
+        services.AddSignalR();
+        services.AddSingleton<PresenceTracker>();
         return services;
     }
 }

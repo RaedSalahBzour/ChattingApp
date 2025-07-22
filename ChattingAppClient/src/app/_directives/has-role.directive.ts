@@ -2,7 +2,6 @@ import {
   Directive,
   inject,
   Input,
-  input,
   OnInit,
   TemplateRef,
   ViewContainerRef,
