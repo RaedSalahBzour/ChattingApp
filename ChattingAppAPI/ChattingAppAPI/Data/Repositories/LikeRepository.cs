@@ -66,8 +66,5 @@ public class LikeRepository(ApplicationDbContext context, IMapper mapper) : ILik
             .CreateAsync(query, likeParams.PageNumber, likeParams.PageSize);
     }
 
-    public async Task<bool> SaveChanges()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
+
 }

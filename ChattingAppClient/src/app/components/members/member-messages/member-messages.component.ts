@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   Component,
   inject,
   input,
@@ -19,8 +20,9 @@ import { errorInterceptor } from '../../../_interceptors/error.interceptor';
   templateUrl: './member-messages.component.html',
   styleUrl: './member-messages.component.css',
 })
-export class MemberMessagesComponent {
+export class MemberMessagesComponent implements AfterViewChecked {
   @ViewChild('messageForm') messageForm?: NgForm;
+  @ViewChild('scrollMe') scrollContainer?: any;
   messageService = inject(MessageService);
   username = input.required<string>();
   messageContent = '';
@@ -29,5 +31,14 @@ export class MemberMessagesComponent {
       .sendMessage(this.username(), this.messageContent)
       .then(() => this.messageForm?.reset())
       .catch((error) => console.log(error));
+  }
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+  scrollToBottom() {
+    if (this.scrollContainer) {
+      this.scrollContainer.nativeElement.scrollTop =
+        this.scrollContainer.nativeElement.scrollHeight;
+    }
   }
 }

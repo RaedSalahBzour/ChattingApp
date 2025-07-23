@@ -37,7 +37,7 @@ try
     var userManager = sercices.GetRequiredService<UserManager<AppUser>>();
     var roleManager = sercices.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
-    await context.Database.ExecuteSqlRawAsync("Delete From [Connections]");
+    await context.Connections.ExecuteDeleteAsync();
     await Seed.SeedUsers(userManager, roleManager);
 }
 catch (Exception ex)
