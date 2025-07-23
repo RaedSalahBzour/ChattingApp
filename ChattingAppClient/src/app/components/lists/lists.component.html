@@ -39,7 +39,7 @@
   </div>
 </div>
 <!-- Pagination -->
-@if (likeService.paginatedResult()?.pagination) {
+@if (likeService.paginatedResult()?.items?.length!==0) {
 <div class="d-flex justify-content-center mt-4">
   <pagination
     [boundaryLinks]="true"

@@ -3,15 +3,11 @@ import {
   Component,
   inject,
   input,
-  OnInit,
-  output,
   ViewChild,
 } from '@angular/core';
 import { MessageService } from '../../../_services/message.service';
-import { Message } from '../../../_models/message';
 import { TimeagoModule } from 'ngx-timeago';
 import { FormsModule, NgForm } from '@angular/forms';
-import { errorInterceptor } from '../../../_interceptors/error.interceptor';
 
 @Component({
   selector: 'app-member-messages',

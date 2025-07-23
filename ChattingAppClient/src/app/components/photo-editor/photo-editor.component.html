@@ -1,15 +1,19 @@
 <div class="row">
   @for (photo of member().photos; track photo.id) {
-  <div class="col-2 mt-1 mx-3">
+  <div class="col-2 mb-1 img-wrapper">
     <img
       src="{{ photo.url }}"
-      style="width: 150px; height: 150px"
-      alt="user photo"
+      alt="{{ photo.url }}"
+      class="img-thumbnail p-1"
+      [class.not-approved]="!photo.isApproved"
     />
+    <div class="text-center img-text" *ngIf="!photo.isApproved">
+      <span class="text-danger">Awaiting approval</span>
+    </div>
     <div class="text-center mb-2">
       <button
         class="btn btn-sm"
-        [disabled]="photo.isMain"
+        [disabled]="photo.isMain || !photo.isApproved"
         (click)="setMainPhoto(photo)"
         [ngClass]="photo.isMain ? 'btn-success active' : 'btn-outline-success'"
       >

@@ -3,13 +3,13 @@
 namespace ChattingAppAPI.Data.Repositories;
 
 public class UnitOfWork(ApplicationDbContext context, ILikeRepository likeRepository
-    , IUserRepository userRepository, IMessageRepository messageRepository) : IUnitOfWork
+    , IUserRepository userRepository, IMessageRepository messageRepository
+    , IPhotoRepository photoRepository) : IUnitOfWork
 {
     public IUserRepository UserRepository => userRepository;
-
     public IMessageRepository MessageRepository => messageRepository;
-
     public ILikeRepository LikeRepository => likeRepository;
+    public IPhotoRepository PhotoRepository => photoRepository;
 
     public async Task<bool> Complete()
     {
